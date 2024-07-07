@@ -18,6 +18,8 @@ const server = app.listen(process.env.BACKEND_PORT, () => {
   console.log("Server started at port " + process.env.BACKEND_PORT);
 });
 
+server.setTimeout(120000); // 120 seconds timeout
+
 process.on("unhandledRejection", (err, promise) => {
   console.log(`${err.name} : ${err.message}`);
   console.log(`Atpromise: ${promise}`);

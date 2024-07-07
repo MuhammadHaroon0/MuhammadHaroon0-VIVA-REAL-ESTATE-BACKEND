@@ -18,7 +18,11 @@ const hpp = require("hpp");
 ///////////////////////////Files
 const AppError = require("./utils/AppError");
 console.log(process.env.FRONTEND_URL);
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL, // Replace with your actual frontend URL
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // if you need to support credentials (cookies, authorization headers, etc.)
+}));
 // app.use(express.static(__dirname + "public"));
 let apiToken = null;
 
