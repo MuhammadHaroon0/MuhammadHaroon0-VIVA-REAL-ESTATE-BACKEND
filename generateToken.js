@@ -20,7 +20,6 @@ const fetchToken = catchAsync(async (req, res, next) => {
         );
         apiToken = response.data.access_token;
 
-        console.log(apiToken);
     } catch (error) {
         return new AppError("Failed to refresh token", 500)  //400 for bad request
     }
