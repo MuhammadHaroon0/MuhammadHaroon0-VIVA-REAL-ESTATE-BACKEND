@@ -14,7 +14,7 @@ const app = require("./app");
 // const connectDB = require("./db");
 // connectDB();
 
-const server = app.listen(process.env.BACKEND_PORT, () => {
+const server = app.listen(process.env.BACKEND_PORT || 5000, () => {
   console.log("Server started at port " + process.env.BACKEND_PORT);
 });
 
