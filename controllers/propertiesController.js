@@ -4,21 +4,20 @@ const AppError = require("../utils/AppError");
 const catchAsync = require("./../utils/catchAsync");
 exports.getProperties = catchAsync(async (req, res, next) => {
     try {
-        // const token = getToken();
-        // const response = await axios.get("https://ddfapi.realtor.ca/odata/v1/Property?$filter=City eq 'Vancouver'", {
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         Authorization: `Bearer ${token}`,
-        //     }
-        // });
+        const token = getToken();
+        const response = await axios.get("https://ddfapi.realtor.ca/odata/v1/Property?$filter=City eq 'Vancouver'", {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            }
+        });
         res.setHeader('Access-Control-Allow-Origin', '*')
         res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
         res.setHeader(
             'Access-Control-Allow-Headers',
             'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
         )
-        // return res.status(200).json(response.data.value)
-        return res.status(200).json({ "key": "value" })
+        return res.status(200).json(response.data.value)
     } catch (error) {
         console.log(error);
 
