@@ -11,6 +11,12 @@ exports.getProperties = catchAsync(async (req, res, next) => {
                 Authorization: `Bearer ${token}`,
             }
         });
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+        res.setHeader(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+        )
         return res.status(200).json(response.data.value)
     } catch (error) {
         console.log(error);
@@ -52,6 +58,12 @@ exports.getProperty = catchAsync(async (req, res, next) => {
 
         // }
         // console.log(data);
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+        res.setHeader(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+        )
         return res.status(200).json(response.data)
     } catch (error) {
         console.log(error);
