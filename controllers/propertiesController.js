@@ -11,6 +11,15 @@ exports.getProperties = catchAsync(async (req, res, next) => {
                 Authorization: `Bearer ${token}`,
             }
         });
+        res.setHeader('Access-Control-Allow-Credentials', true)
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        // another common pattern
+        // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+        res.setHeader(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+        )
         return res.status(200).json(response.data.value)
     } catch (error) {
         console.log(error);
@@ -20,14 +29,12 @@ exports.getProperties = catchAsync(async (req, res, next) => {
 exports.getProperty = catchAsync(async (req, res, next) => {
     try {
         const token = getToken();
-        console.log("ass");
         const response = await axios.get(`https://ddfapi.realtor.ca/odata/v1/Property/${req.params.listingKey}`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             }
         });
-        console.log(response.data);
         // const data = {
         //     ListingKey: response.ListingKey,
         //     LotSizeArea: response.LotSizeArea,
@@ -52,6 +59,15 @@ exports.getProperty = catchAsync(async (req, res, next) => {
 
         // }
         // console.log(data);
+        res.setHeader('Access-Control-Allow-Credentials', true)
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        // another common pattern
+        // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+        res.setHeader(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+        )
         return res.status(200).json(response.data)
     } catch (error) {
         console.log(error);

@@ -20,7 +20,6 @@ const AppError = require("./utils/AppError");
 console.log(process.env.FRONTEND_URL);
 app.use(cors());
 // app.use(express.static(__dirname + "public"));
-let apiToken = null;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -75,7 +74,7 @@ const properties = require("./routes/properties.js");
 
 
 //ROUTES
-app.use("/api/v1/properties", properties);
+app.use("/properties", properties);
 
 app.get('/', async (req, res, next) => {
   res.send("hello")
