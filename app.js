@@ -74,7 +74,7 @@ const properties = require("./routes/properties.js");
 
 
 //ROUTES
-app.use("/properties", properties);
+app.use("/api/v1/properties", properties);
 
 app.get('/', async (req, res, next) => {
   res.send("hello")
