@@ -2,30 +2,54 @@ const { getToken } = require("../generateToken");
 const axios = require('axios');
 const AppError = require("../utils/AppError");
 const catchAsync = require("./../utils/catchAsync");
-exports.getProperties = catchAsync(async (req, res, next) => {
+
+// Fetch function to get properties for a specific page
+async function fetchProperties(url, token) {
     try {
-        const token = getToken();
-        const response = await axios.get("https://ddfapi.realtor.ca/odata/v1/Property?$filter=City eq 'Vancouver'", {
+        const response = await axios.get(url, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
-            }
+            },
+            timeout: 10000 // 10 seconds
         });
-        res.setHeader('Access-Control-Allow-Credentials', true)
-        res.setHeader('Access-Control-Allow-Origin', '*')
-        // another common pattern
-        // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-        res.setHeader(
-            'Access-Control-Allow-Headers',
-            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-        )
-        return res.status(200).json(response.data.value)
-    } catch (error) {
-        console.log(error);
 
+        return response.data;  // Return the response data directly
+    } catch (error) {
+        console.error('Fetch error:', error.message);
+        throw error;
     }
-})
+}
+
+exports.getProperties = catchAsync(async (req, res, next) => {
+    try {
+        const token = getToken();
+
+        const page = parseInt(req.query.page) || 1;
+        const pageSize = parseInt(req.query.pageSize) || 20;
+
+        const url = `https://ddfapi.realtor.ca/odata/v1/Property?$filter=City eq 'Vancouver'&$top=${pageSize}&$skip=${(page - 1) * pageSize}`;
+
+        const response = await fetchProperties(url, token);
+        console.log('Properties:', response.value);  // Log the properties
+
+        // Set CORS headers
+        res.setHeader('Access-Control-Allow-Credentials', true);
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+        res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+
+        // Return the properties and the next link if available
+        return res.status(200).json({
+            properties: response.value,
+            nextLink: response['@odata.nextLink'] || null
+        });
+    } catch (error) {
+        console.error('Server error:', error.message);
+        return res.status(500).json({ message: 'An error occurred while fetching properties.' });
+    }
+});
+
 exports.getProperty = catchAsync(async (req, res, next) => {
     try {
         const token = getToken();
@@ -77,4 +101,3 @@ exports.getProperty = catchAsync(async (req, res, next) => {
 
     }
 })
-
