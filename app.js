@@ -35,7 +35,11 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(passport.session())
 
 app.use(helmet());
-app.use(morgan("tiny"));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan("tiny"));
+  app.use(mongoSanitize());
+
+}
 
 //RATE LIMITING
 const limiter = rateLimit({
@@ -46,7 +50,6 @@ const limiter = rateLimit({
 // app.use("/api", limiter);cd
 
 //SANITIZATION OF REQUESTS FROM NOSQL  INJECTIONS
-app.use(mongoSanitize());
 
 //PREVENTING JS OR HTML IN REQUESTS
 app.use(xssClean());

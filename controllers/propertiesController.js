@@ -31,18 +31,33 @@ exports.getProperties = catchAsync(async (req, res, next) => {
         const url = `https://ddfapi.realtor.ca/odata/v1/Property?$filter=City eq 'Vancouver'&$top=${pageSize}&$skip=${(page - 1) * pageSize}`;
 
         const response = await fetchProperties(url, token);
-        console.log('Properties:', response.value);  // Log the properties
 
-        // Set CORS headers
-        res.setHeader('Access-Control-Allow-Credentials', true);
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-        res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
         // Return the properties and the next link if available
         return res.status(200).json({
             properties: response.value,
-            nextLink: response['@odata.nextLink'] || null
+            // nextLink: response['@odata.nextLink'] || null
+        });
+    } catch (error) {
+        console.error('Server error:', error.message);
+        return res.status(500).json({ message: 'An error occurred while fetching properties.' });
+    }
+});
+exports.getLocations = catchAsync(async (req, res, next) => {
+    try {
+        const token = getToken();
+
+
+
+        const url = `https://ddfapi.realtor.ca/odata/v1/Property?$filter=City eq 'Vancouver'&$select=Latitude,Longitude`;
+
+        const response = await fetchProperties(url, token);
+
+
+        // Return the properties and the next link if available
+        return res.status(200).json({
+            properties: response.value,
+            // nextLink: response['@odata.nextLink'] || null
         });
     } catch (error) {
         console.error('Server error:', error.message);
@@ -82,16 +97,7 @@ exports.getProperty = catchAsync(async (req, res, next) => {
 
 
         // }
-        // console.log(data);
-        res.setHeader('Access-Control-Allow-Credentials', true)
-        res.setHeader('Access-Control-Allow-Origin', '*')
-        // another common pattern
-        // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-        res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-        res.setHeader(
-            'Access-Control-Allow-Headers',
-            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-        )
+
         return res.status(200).json(response.data)
     } catch (error) {
         console.log(error);
