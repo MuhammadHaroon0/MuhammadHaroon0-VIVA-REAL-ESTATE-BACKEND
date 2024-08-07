@@ -27,7 +27,6 @@ exports.getProperties = catchAsync(async (req, res, next) => {
 
         const page = parseInt(req.query.page) || 1;
         const pageSize = parseInt(req.query.pageSize) || 20;
-
         const url = `https://ddfapi.realtor.ca/odata/v1/Property?$filter=City eq 'Vancouver'&$top=${pageSize}&$skip=${(page - 1) * pageSize}`;
 
         const response = await fetchProperties(url, token);
@@ -40,7 +39,8 @@ exports.getProperties = catchAsync(async (req, res, next) => {
         });
     } catch (error) {
         console.error('Server error:', error.message);
-        return res.status(500).json({ message: 'An error occurred while fetching properties.' });
+        console.log();
+        return res.status(500).json({ message: 'An error occurred while fetching properties.', error });
     }
 });
 exports.getLocations = catchAsync(async (req, res, next) => {
