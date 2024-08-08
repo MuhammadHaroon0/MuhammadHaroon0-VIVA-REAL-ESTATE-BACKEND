@@ -3,10 +3,9 @@ const { fetchToken } = require("./generateToken.js");
 const express = require("express");
 const app = express();
 const helmet = require("helmet");
-const cron = require('node-cron');
 
 const morgan = require("morgan");
-// const cors = require("cors");
+const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
 const xssClean = require("xss-clean");
@@ -18,7 +17,7 @@ const hpp = require("hpp");
 ///////////////////////////Files
 const AppError = require("./utils/AppError");
 // console.log(process.env.FRONTEND_URL);
-// app.use(cors());
+app.use(cors());
 // app.use(express.static(__dirname + "public"));
 
 app.use(express.json());
@@ -70,7 +69,6 @@ app.use(
 // }
 
 
-cron.schedule('0 * * * *', fetchToken);
 //ROUTERS
 const properties = require("./routes/properties.js");
 

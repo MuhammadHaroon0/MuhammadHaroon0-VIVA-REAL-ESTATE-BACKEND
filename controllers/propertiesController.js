@@ -67,7 +67,7 @@ exports.getLocations = catchAsync(async (req, res, next) => {
 
 exports.getProperty = catchAsync(async (req, res, next) => {
     try {
-        const token = getToken();
+        const token = await getToken();
         const response = await axios.get(`https://ddfapi.realtor.ca/odata/v1/Property/${req.params.listingKey}`, {
             headers: {
                 "Content-Type": "application/json",
