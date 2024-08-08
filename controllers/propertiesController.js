@@ -23,8 +23,8 @@ async function fetchProperties(url, token) {
 
 exports.getProperties = catchAsync(async (req, res, next) => {
     try {
-        const token = getToken();
-
+        const token = await getToken();
+        console.log(token);
         const page = parseInt(req.query.page) || 1;
         const pageSize = parseInt(req.query.pageSize) || 20;
         const url = `https://ddfapi.realtor.ca/odata/v1/Property?$filter=City eq 'Vancouver'&$top=${pageSize}&$skip=${(page - 1) * pageSize}`;

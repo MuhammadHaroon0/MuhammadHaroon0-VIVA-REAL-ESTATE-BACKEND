@@ -70,7 +70,6 @@ app.use(
 // }
 
 
-fetchToken()
 cron.schedule('0 * * * *', fetchToken);
 //ROUTERS
 const properties = require("./routes/properties.js");
