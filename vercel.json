@@ -12,11 +12,7 @@
             "dest": "server.js",
             "methods": [
                 "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
+                "POST"
             ],
             "headers": {
                 "Access-Control-Allow-Origin": "*"

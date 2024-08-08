@@ -11,7 +11,7 @@ async function fetchProperties(url, token) {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            timeout: 10000 // 10 seconds
+            // timeout: 10000 // 10 seconds
         });
 
         return response.data;  // Return the response data directly

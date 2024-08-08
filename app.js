@@ -6,7 +6,7 @@ const helmet = require("helmet");
 const cron = require('node-cron');
 
 const morgan = require("morgan");
-const cors = require("cors");
+// const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
 const xssClean = require("xss-clean");
@@ -17,8 +17,8 @@ const hpp = require("hpp");
 // const session = require('express-session')
 ///////////////////////////Files
 const AppError = require("./utils/AppError");
-console.log(process.env.FRONTEND_URL);
-app.use(cors());
+// console.log(process.env.FRONTEND_URL);
+// app.use(cors());
 // app.use(express.static(__dirname + "public"));
 
 app.use(express.json());
